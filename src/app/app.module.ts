@@ -14,6 +14,7 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { StationMapComponent } from './components/station-map/station-map.component';
 import { UnregisteredComponent } from './components/unregistered/unregistered.component';
 import { AuthenticationService } from './services/authentication.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { AuthenticationService } from './services/authentication.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [
     AuthenticationService
