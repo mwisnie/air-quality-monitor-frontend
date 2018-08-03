@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { User } from '../../model/User';
 import { UserService } from '../../services/user.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-sign-up',
@@ -19,7 +20,7 @@ export class SignUpComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSubmit() {
+  onSubmit(form: NgForm) {
     this.submitted = true;
     // this.userService.addUser()
   }

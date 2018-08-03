@@ -4,12 +4,14 @@ import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { User } from '../model/User';
+import { UserService } from './user.service';
 
 const LOGIN_ENDPOINT = 'http://localhost:8080/login';
 const API_USER_ENDPOINT = 'http://localhost:8080/api/users/';
 
+const requestHeaders = new HttpHeaders({'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'});
 const httpOptions = {
-  headers: new HttpHeaders({'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}),
+  headers: requestHeaders,
   observe: 'response' as 'response'
 };
 
@@ -21,7 +23,8 @@ export class AuthenticationService {
   userLoggedSubject = new Subject<User>();
   jwtToken = new Subject<string>();
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient,
+              private userService: UserService) { }
 
   login(username: string, password: string): void {
     const credentials = new User();
@@ -29,33 +32,37 @@ export class AuthenticationService {
     credentials.password = password;
 
     this.httpClient.post(LOGIN_ENDPOINT, credentials, httpOptions)
-    .subscribe(
-      (response: HttpResponse<any>) => {
-        this.getDataForUser(response.headers.get('UserId'), response.headers.get('Authorization'));
-      },
-      (error: HttpErrorResponse) => {
-        console.log('ERROR during login request');
-        console.log(error);
-    });
+      .subscribe(
+        (response: HttpResponse<any>) => {
+          this.getDataForUser(response.headers.get('UserId'), response.headers.get('Authorization'));
+        },
+        (error: HttpErrorResponse) => {
+          this.userLoggedSubject.next(null);
+          this.jwtToken.next(null);
+          console.log('ERROR during login request');
+          console.log(error);
+      });
   }
 
   getDataForUser(userId: string, jwtToken: string): void {
     const getDataHttpOptions = {
-      headers: new HttpHeaders({'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*',
-                                'Authorization': jwtToken})};
+      headers: requestHeaders.append('Authorization', jwtToken)
+    };
 
     this.httpClient.get<User>(API_USER_ENDPOINT + userId, getDataHttpOptions)
-    .subscribe(
-      (response: User) => {
-        this.userLoggedSubject.next(response);
-        this.jwtToken.next(jwtToken);
-        console.log('Obtained user data');
-      },
-      (error: HttpErrorResponse) => {
-        console.log('ERROR while getting user data');
-        console.log(error);
-      }
-    );
+      .subscribe(
+        (response: User) => {
+          this.userLoggedSubject.next(response);
+          this.jwtToken.next(jwtToken);
+          console.log('Obtained user data');
+        },
+        (error: HttpErrorResponse) => {
+          this.userLoggedSubject.next(null);
+          this.jwtToken.next(null);
+          console.log('ERROR while getting user data');
+          console.log(error);
+        }
+      );
   }
 
   isUserLoggedIn(): Observable<boolean> {

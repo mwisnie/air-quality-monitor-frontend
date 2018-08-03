@@ -1,3 +1,36 @@
-<p>
-  sign-in works!
-</p>
+<div class="container form-background">
+  <h2>Sign in</h2>
+  <br>
+
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input class="form-control" type="text" 
+            id="username"
+            placeholder="Username"
+            [(ngModel)]="username"
+            (click)="hideErrorMsg()">
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input class="form-control" type="password" 
+          id="password"
+          placeholder="Password"
+          [(ngModel)]="password"
+          (click)="hideErrorMsg()">
+  </div>
+
+  <button class="btn btn-success" type="submit"
+          [disabled]="password.length === 0 || username.length === 0"
+          (click)=login()>
+    Sign in
+  </button>
+
+  <div *ngIf="isBadCredentialsErrorShown">
+      <br>
+      <div class="alert alert-danger" role="alert">
+          Can't sign in with provided credentials!
+      </div>
+  </div>
+
+</div>
