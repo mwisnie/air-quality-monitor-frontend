@@ -15,6 +15,7 @@ import { StationMapComponent } from './components/station-map/station-map.compon
 import { UnregisteredComponent } from './components/unregistered/unregistered.component';
 import { AuthenticationService } from './services/authentication.service';
 import { HttpClientModule } from '@angular/common/http';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { HttpClientModule } from '@angular/common/http';
     SignInComponent,
     UnregisteredComponent,
     AlertConfigurationComponent,
-    StationMapComponent
+    StationMapComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
