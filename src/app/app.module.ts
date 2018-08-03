@@ -16,6 +16,7 @@ import { UnregisteredComponent } from './components/unregistered/unregistered.co
 import { AuthenticationService } from './services/authentication.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FooterComponent } from './components/footer/footer.component';
+import { UserService } from './services/user.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { FooterComponent } from './components/footer/footer.component';
     HttpClientModule
   ],
   providers: [
-    AuthenticationService
+    AuthenticationService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })

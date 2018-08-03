@@ -1,9 +1,9 @@
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '../model/User';
-import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Subject, Observable } from 'rxjs';
-import { mapChildrenIntoArray } from '@angular/router/src/url_tree';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { User } from '../model/User';
 
 const LOGIN_ENDPOINT = 'http://localhost:8080/login';
 const API_USER_ENDPOINT = 'http://localhost:8080/api/users/';
@@ -19,7 +19,7 @@ const httpOptions = {
 export class AuthenticationService {
 
   userLoggedSubject = new Subject<User>();
-  jwtToken: string;
+  jwtToken = new Subject<string>();
 
   constructor(private httpClient: HttpClient) { }
 
@@ -48,6 +48,7 @@ export class AuthenticationService {
     .subscribe(
       (response: User) => {
         this.userLoggedSubject.next(response);
+        this.jwtToken.next(jwtToken);
         console.log('Obtained user data');
       },
       (error: HttpErrorResponse) => {
@@ -71,6 +72,7 @@ export class AuthenticationService {
 
   logout(): void {
     this.userLoggedSubject.next(null);
+    this.jwtToken.next(null);
   }
 
 }
