@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { User } from '../model/User';
@@ -20,7 +20,7 @@ const httpOptions = {
 })
 export class AuthenticationService {
 
-  userLoggedSubject = new Subject<User>();
+  userLoggedSubject = new BehaviorSubject<User>(null);
   jwtToken = new Subject<string>();
 
   constructor(private httpClient: HttpClient,

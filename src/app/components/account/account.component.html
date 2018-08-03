@@ -1,3 +1,71 @@
-<p>
-  account works!
-</p>
+<div class="container form-background">
+<h2>Your account:</h2>
+<br>
+
+<table class="table table-bordered">
+  <tr>
+    <td style="width:15%;">Username</td>
+    <td style="width:65%;">
+      <input type="text" class="form-control" disabled [(ngModel)]="user.username">
+    </td>
+    <td style="width:20%;">
+        <button class="btn btn-secondary btn-block" disabled 
+        data-toggle="tooltip" data-placement="top" [title]="notImplemented">Edit</button>
+    </td>
+  </tr>
+  <tr>
+    <td style="width:15%;">Email</td>
+    <td style="width:65%;">
+      <input type="text" class="form-control" disabled [(ngModel)]="user.email">
+    </td>
+    <td style="width:20%;">
+      <button class="btn btn-secondary btn-block" disabled 
+      data-toggle="tooltip" data-placement="top" [title]="notImplemented">Edit</button>
+    </td>
+  </tr>
+</table>
+
+<table *ngIf="changingPassword" class="table table-bordered">
+  <tr>
+    <td style="width:15%;">Old password</td>
+    <td style="width:65%;">
+      <input type="password" class="form-control" #oldPassword>
+    </td>
+    <td style="width:20%;">
+    </td>
+  </tr>
+  <tr>
+    <td style="width:15%;">New password</td>
+    <td style="width:65%;">
+      <input type="password" class="form-control" #newPassword 
+              (blur)="checkPasswordSimilarity(newPassword.value, newPasswordConfirm.value)">
+    </td>
+    <td style="width:20%;">
+    </td>
+  </tr>
+  <tr>
+    <td style="width:15%;">Confirm new password</td>
+    <td style="width:65%;">
+      <input type="password" class="form-control"  #newPasswordConfirm
+            (blur)="checkPasswordSimilarity(newPassword.value, newPasswordConfirm.value)">
+    </td>
+    <td style="width:20%;">
+      <button class="btn btn-primary btn-block" 
+              (click)="finishPasswordChange(oldPassword.value, newPassword.value, newPasswordConfirm.value)">
+        Change password
+      </button>
+    </td>
+  </tr>
+</table>
+
+<div *ngIf="passwordError.length > 0" class="alert alert-danger">
+  {{ passwordError }}
+</div>
+
+<div *ngIf="!changingPassword">
+  <button class="btn btn-primary" (click)="startPasswordChange()">Change password</button>
+  &nbsp;&nbsp;
+  <button class="btn btn-danger">Delete account</button>
+</div>
+
+</div>
