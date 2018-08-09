@@ -18,6 +18,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { FooterComponent } from './components/footer/footer.component';
 import { UserService } from './services/user.service';
 
+import { AgmCoreModule } from '@agm/core';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +38,10 @@ import { UserService } from './services/user.service';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDA-Pqh_zbJiUQ5W23YC9n7h3ByV2W1fUY'
+    })
   ],
   providers: [
     AuthenticationService,

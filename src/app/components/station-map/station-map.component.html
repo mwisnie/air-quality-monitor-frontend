@@ -1,3 +1,25 @@
 <div class="container form-background">
   <button (click)="test()">Test</button>
+
+  <agm-map [latitude]="52" [longitude]="20" #gm>
+    <agm-marker *ngFor="let station of stations"
+              [latitude]="+station.gegrLat"
+              [longitude]="+station.gegrLon"
+              [markerClickable]="true"
+              (markerClick)="gm.lastOpen?.close(); gm.lastOpen = infoWindow; getStationDetail(station.id)"
+              >
+        <agm-info-window #infoWindow>
+          {{ station.stationName}}
+          <br>
+          Mierzone wartości:
+          <br>
+          <div *ngFor="let measurementPoint of stationDetail">
+            {{ measurementPoint.param.paramName }}
+          </div>
+        </agm-info-window>            
+    </agm-marker>
+  </agm-map>
+
+  
+
 </div>
