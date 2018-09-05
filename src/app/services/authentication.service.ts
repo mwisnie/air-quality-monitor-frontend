@@ -34,7 +34,7 @@ export class AuthenticationService {
     this.httpClient.post(LOGIN_ENDPOINT, credentials, httpOptions)
       .subscribe(
         (response: HttpResponse<any>) => {
-          this.getDataForUser(response.headers.get('UserId'), response.headers.get('Authorization'));
+          this.getDataForUser(response.headers.get('UserId'), response.headers.get('Authorization'), credentials);
         },
         (error: HttpErrorResponse) => {
           this.userLoggedSubject.next(null);
@@ -44,7 +44,7 @@ export class AuthenticationService {
       });
   }
 
-  getDataForUser(userId: string, jwtToken: string): void {
+  getDataForUser(userId: string, jwtToken: string, credentials: User): void {
     const getDataHttpOptions = {
       headers: requestHeaders.append('Authorization', jwtToken)
     };
@@ -52,6 +52,7 @@ export class AuthenticationService {
     this.httpClient.get<User>(API_USER_ENDPOINT + userId, getDataHttpOptions)
       .subscribe(
         (response: User) => {
+          response.password = credentials.password;
           this.userLoggedSubject.next(response);
           this.jwtToken.next(jwtToken);
           console.log('Obtained user data');

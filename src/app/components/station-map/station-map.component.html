@@ -1,6 +1,8 @@
 <div class="container form-background">
-  <button (click)="test()">Test</button>
+  <h2>All available stations</h2>
+  <br>
 
+  <div id="map">
   <agm-map [latitude]="52" [longitude]="20" #gm>
     <agm-marker *ngFor="let station of stations"
               [latitude]="+station.gegrLat"
@@ -19,7 +21,5 @@
         </agm-info-window>            
     </agm-marker>
   </agm-map>
-
-  
-
+</div>
 </div>

@@ -8,6 +8,9 @@ import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { StationMapComponent } from './components/station-map/station-map.component';
 import { AccountComponent } from './components/account/account.component';
+import { UnregisteredComponent } from './components/unregistered/unregistered.component';
+import { AuthGuard } from './auth.guard';
+
 
 const routes: Route[] = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -17,7 +20,8 @@ const routes: Route[] = [
   {path: 'signin', component: SignInComponent},
   {path: 'alerts', component: AlertConfigurationComponent},
   {path: 'map', component: StationMapComponent},
-  {path: 'account', component: AccountComponent}
+  {path: 'account', component: AccountComponent, canActivate: [AuthGuard]},
+  {path: 'unregistered', component: UnregisteredComponent}
 ];
 
 @NgModule({

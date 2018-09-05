@@ -19,6 +19,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { UserService } from './services/user.service';
 
 import { AgmCoreModule } from '@agm/core';
+import { AuthGuard } from './auth.guard';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { AgmCoreModule } from '@agm/core';
   ],
   providers: [
     AuthenticationService,
-    UserService
+    UserService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

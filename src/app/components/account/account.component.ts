@@ -46,20 +46,18 @@ export class AccountComponent implements OnDestroy, OnInit, DoCheck {
   }
 
   finishPasswordChange(oldPassword: string, newPassword: string, newPasswordConfirm: string): void {
-    console.log(oldPassword, newPassword, newPasswordConfirm, this.user.password);
-    console.log(btoa(oldPassword));
+    if (oldPassword !== this.user.password) {
+      this.passwordError = 'Incorrect old password.';
+    }
     if (this.checkPasswordSimilarity(newPassword, newPasswordConfirm)) {
       // send request
-    }
-    if (btoa(oldPassword) !== this.user.password) {
-      this.passwordError = 'Incorrect old password.';
     }
 
   }
 
   checkPasswordSimilarity(newPassword: string, newPasswordConfirm: string): boolean {
     this.passwordError = '';
-    if (newPassword.length !== 0 && newPasswordConfirm.length !== 0) {
+    if (newPassword.length === 0 && newPasswordConfirm.length === 0) {
       this.passwordError = 'Password and confirm password fields are required.';
     }
     if (newPassword !== newPasswordConfirm) {
