@@ -18,6 +18,7 @@ const routes: Route[] = [
   {path: 'about', component: AboutComponent},
   {path: 'signup', component: SignUpComponent},
   {path: 'signin', component: SignInComponent},
+  // {path: 'alerts', component: AlertConfigurationComponent, canActivate: [AuthGuard]},
   {path: 'alerts', component: AlertConfigurationComponent},
   {path: 'map', component: StationMapComponent},
   {path: 'account', component: AccountComponent, canActivate: [AuthGuard]},

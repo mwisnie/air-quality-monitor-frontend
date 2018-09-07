@@ -27,7 +27,7 @@ export class AccountComponent implements OnDestroy, OnInit, DoCheck {
   }
 
   ngOnDestroy(): void {
-    if (this.userSubscr !== null) {
+    if (this.userSubscr) {
       this.userSubscr.unsubscribe();
     }
   }
@@ -35,7 +35,7 @@ export class AccountComponent implements OnDestroy, OnInit, DoCheck {
   getUserData(): void {
     this.userSubscr = this.authenticationService.userLoggedSubject
       .subscribe(user => {
-        if (user !== null) {
+        if (user) {
           this.user = user;
         }
     });

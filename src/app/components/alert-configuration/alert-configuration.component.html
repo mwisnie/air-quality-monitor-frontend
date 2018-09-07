@@ -1,3 +1,31 @@
-<p>
-  alert-configuration works!
-</p>
+<div class="container form-background">
+    <h2>Configure your alerts</h2>
+    User model:
+    <!-- {{ user.username }}
+    {{ user.alertOn }} -->
+    <br>
+
+
+  <div class="custom-control custom-radio">
+    <input type="radio" id="alertOn" name="aa"class="custom-control-input">
+    <label for="alertOn" class=custom-control-label>ALERT ON</label>
+  </div>
+  <div class="custom-control custom-radio">
+      <input type="radio" id="alertOff" name="aa"class="custom-control-input">
+      <label for="alertOff" class=custom-control-label>ALERT OFF</label>
+  </div>
+
+  <div class="custom-control custom-radio">
+  <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
+  <label class="custom-control-label" for="customRadio1">Toggle this custom radio</label>
+</div>
+<div class="custom-control custom-radio">
+  <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
+  <label class="custom-control-label" for="customRadio2">Or toggle this other custom radio</label>
+</div>
+
+<mat-slide-toggle>AAA</mat-slide-toggle>
+    <mat-slide-toggle>Slide me!</mat-slide-toggle>
+
+
+</div>
