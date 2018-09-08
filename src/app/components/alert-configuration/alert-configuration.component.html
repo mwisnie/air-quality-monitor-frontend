@@ -5,27 +5,51 @@
     {{ user.alertOn }} -->
     <br>
 
+    <h4>Alerts on</h4>
+    <mat-slide-toggle>Alerts on</mat-slide-toggle>
 
-  <div class="custom-control custom-radio">
-    <input type="radio" id="alertOn" name="aa"class="custom-control-input">
-    <label for="alertOn" class=custom-control-label>ALERT ON</label>
-  </div>
-  <div class="custom-control custom-radio">
-      <input type="radio" id="alertOff" name="aa"class="custom-control-input">
-      <label for="alertOff" class=custom-control-label>ALERT OFF</label>
-  </div>
+    <br>
 
-  <div class="custom-control custom-radio">
-  <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
-  <label class="custom-control-label" for="customRadio1">Toggle this custom radio</label>
-</div>
-<div class="custom-control custom-radio">
-  <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
-  <label class="custom-control-label" for="customRadio2">Or toggle this other custom radio</label>
-</div>
+    <h4>Stations</h4>
+    <div class="row">
+        <div class="col-7">
+            <div id="map">
+                <agm-map [latitude]="52" [longitude]="20" #gm>
+                  <agm-marker *ngFor="let station of stations"
+                            [latitude]="+station.gegrLat"
+                            [longitude]="+station.gegrLon"
+                            [markerClickable]="true"
+                            (markerClick)="gm.lastOpen?.close(); gm.lastOpen = infoWindow; getStationDetail(station.id)"
+                            >
+                      <agm-info-window #infoWindow>
+                        <b>{{ station.stationName}}</b>
+                        <br>
+                        Mierzone wartości:
+                        <br>
+                        <div *ngFor="let measurementPoint of stationDetail">
+                          {{ measurementPoint.param.paramName }}
+                        </div>
+                        <br>
+                        <button class="btn btn-success" (click)="addStation(station.id)">Add station</button>
+                      </agm-info-window>            
+                  </agm-marker>
+                </agm-map>
+              </div>
+        </div>
+        <div class="col-5">
+          Station list:
+          <br>
+          lala
+          <div *ngFor="let s of userStationList">
+              {{s.id}} - id
+          </div>
 
-<mat-slide-toggle>AAA</mat-slide-toggle>
-    <mat-slide-toggle>Slide me!</mat-slide-toggle>
 
+        </div>
+        
+
+    </div>
+    
+    
 
 </div>
