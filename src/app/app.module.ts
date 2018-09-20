@@ -34,7 +34,7 @@ import { UserService } from './services/user.service';
     UnregisteredComponent,
     AlertConfigurationComponent,
     StationMapComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

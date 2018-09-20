@@ -14,27 +14,36 @@ import { MeasurementPoint } from '../../model/MeasurementPoint';
 export class AlertConfigurationComponent implements OnInit, OnDestroy {
 
   user: User = null;
-  stations: Array<Station> = [];
-  userStationList: Array<Station> = [];
+  allStations: Array<Station> = [];
+  userStations: Array<Station> = [];
+  stationsAlertLevel: Map<string, number> = new Map();
   stationDetail: Array<MeasurementPoint> = [];
-
-  isListFullAlert = false;
 
   userSubscr: Subscription;
   stationsSubscription: Subscription;
   stationDetailSubscription: Subscription;
+
+  selectedStationId = -1;
+  alertOnPlaceholder = false;
 
   constructor(private authService: AuthenticationService,
               private apiService: ExternalApiService) { }
 
   ngOnInit(): void {
     this.getUserData();
+    // map user stations (id and level) to s
     this.getStationData();
   }
 
   ngOnDestroy(): void {
     if (this.userSubscr) {
       this.userSubscr.unsubscribe();
+    }
+    if (this.stationDetailSubscription) {
+      this.stationDetailSubscription.unsubscribe();
+    }
+    if (this.stationsSubscription) {
+      this.stationsSubscription.unsubscribe();
     }
   }
 
@@ -50,7 +59,7 @@ export class AlertConfigurationComponent implements OnInit, OnDestroy {
   getStationData(): void {
     this.stationsSubscription = this.apiService.getAllStations()
       .subscribe(stations => {
-        this.stations = stations;
+        this.allStations = stations;
     });
   }
 
@@ -59,18 +68,35 @@ export class AlertConfigurationComponent implements OnInit, OnDestroy {
       .subscribe(detail => {
         this.stationDetail = detail;
     });
+    this.selectedStationId = id;
   }
 
   addStation(id: number): void {
-    console.log(id);
-    if (this.userStationList.length === 5) {
-      this.isListFullAlert = true;
+    if (this.userStations.length === 5) {
       return;
     }
-    const selectedStation = this.stations.find(station => station.id === id);
-    if (selectedStation) {
-      this.userStationList.push(selectedStation);
+    const selectedStation = this.allStations.find(station => station.id === id);
+    if (selectedStation && this.userStations.filter(st => st.id === selectedStation.id).length === 0) {
+      this.userStations.push(selectedStation);
     }
+  }
+
+  removeStation(id: number): void {
+    this.userStations.splice(this.userStations.findIndex(st => st.id === id), 1);
+  }
+
+  getAlertLevelForStation(id: number): string {
+    const alertLevel = this.stationsAlertLevel.get(id.toString());
+    if (alertLevel) {
+      return alertLevel.toString();
+    } else {
+      return 'Brak poziomu';
+    }
+  }
+
+  getSlectedStationName(): string {
+    const name = this.allStations.filter(st => st.id === this.selectedStationId)[0].stationName;
+    return name !== null ? name : '';
   }
 
 }
