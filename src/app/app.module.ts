@@ -44,7 +44,7 @@ import { UserService } from './services/user.service';
     BrowserAnimationsModule,
     MatSlideToggleModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDA-Pqh_zbJiUQ5W23YC9n7h3ByV2W1fUY'
+      apiKey: 'AIzaSyApSx5-F1uZW8IzrlYOjFCiKDyIqW_rWnw'
     })
   ],
   providers: [

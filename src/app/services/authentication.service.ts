@@ -1,10 +1,9 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { User } from '../model/User';
-import { UserService } from './user.service';
 
 const LOGIN_ENDPOINT = 'http://localhost:8080/login';
 const API_USER_ENDPOINT = 'http://localhost:8080/api/users/';
@@ -21,10 +20,9 @@ const httpOptions = {
 export class AuthenticationService {
 
   userLoggedSubject = new BehaviorSubject<User>(null);
-  jwtToken = new Subject<string>();
+  jwtToken = new BehaviorSubject<string>(null);
 
-  constructor(private httpClient: HttpClient,
-              private userService: UserService) { }
+  constructor(private httpClient: HttpClient) { }
 
   login(username: string, password: string): void {
     const credentials = new User();
@@ -45,11 +43,11 @@ export class AuthenticationService {
   }
 
   getDataForUser(userId: string, jwtToken: string, credentials: User): void {
-    const getDataHttpOptions = {
+    const authHttpOptions = {
       headers: requestHeaders.append('Authorization', jwtToken)
     };
 
-    this.httpClient.get<User>(API_USER_ENDPOINT + userId, getDataHttpOptions)
+    this.httpClient.get<User>(API_USER_ENDPOINT + userId, authHttpOptions)
       .subscribe(
         (response: User) => {
           response.password = credentials.password;

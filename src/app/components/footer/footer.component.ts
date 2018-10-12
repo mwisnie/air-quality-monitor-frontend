@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-footer',
@@ -8,16 +9,27 @@ import { AuthenticationService } from '../../services/authentication.service';
 })
 export class FooterComponent implements OnInit {
 
-  constructor(private authenticationService: AuthenticationService) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
   }
 
-  login() {
-    this.authenticationService.login('1', '1');
-  }
+  // checkGet() {
+  //   this.userService.getCurrentUser().subscribe(users => {
+  //     console.log(users);
+  //   });
+  // }
 
-  logout() {
-    this.authenticationService.logout();
-  }
+  // checkGet() {
+  //   this.userService.getCurrentUser().subscribe(users => {
+  //     console.log(users);
+  //   });
+  // }
+
+  // checkGet() {
+  //   this.userService.getCurrentUser().subscribe(users => {
+  //     console.log(users);
+  //   });
+  // }
+
 }
