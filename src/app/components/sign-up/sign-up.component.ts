@@ -22,7 +22,8 @@ export class SignUpComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     this.submitted = true;
-    // this.userService.addUser()
+    this.userService.createUser(new User(form.value.username, form.value.password, form.value.email))
+      .subscribe(user => console.log('Created user: ' + JSON.stringify(user)));
   }
 
   checkPasswordsSimiarity(repeatedPassword: any) {

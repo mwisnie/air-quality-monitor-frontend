@@ -18,6 +18,7 @@ const routes: Route[] = [
   {path: 'about', component: AboutComponent},
   {path: 'signup', component: SignUpComponent},
   {path: 'signin', component: SignInComponent},
+  // todo: commented out temporarily: restore when not needed
   // {path: 'alerts', component: AlertConfigurationComponent, canActivate: [AuthGuard]},
   {path: 'alerts', component: AlertConfigurationComponent},
   {path: 'map', component: StationMapComponent},

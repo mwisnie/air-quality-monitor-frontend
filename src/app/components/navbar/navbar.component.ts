@@ -29,7 +29,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   logout(): void {
-    this.authenticationService.logout();
+    this.authenticationService.logoutAndRedirect();
   }
 
 }

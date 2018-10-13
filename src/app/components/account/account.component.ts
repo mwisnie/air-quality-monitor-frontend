@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, OnChanges, DoCheck } from '@angular/core'
 import { AuthenticationService } from '../../services/authentication.service';
 import { User } from '../../model/User';
 import { Subscription } from 'rxjs';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-account',
@@ -14,9 +15,11 @@ export class AccountComponent implements OnDestroy, OnInit, DoCheck {
   userSubscr: Subscription = null;
   notImplemented = 'Functionality not yet implemented';
   changingPassword = false;
+  deletingAccount = false;
   passwordError = '';
 
-  constructor(private authenticationService: AuthenticationService) { }
+  constructor(private authenticationService: AuthenticationService,
+              private userService: UserService) { }
 
   ngOnInit(): void {
     this.getUserData();
@@ -48,11 +51,15 @@ export class AccountComponent implements OnDestroy, OnInit, DoCheck {
   finishPasswordChange(oldPassword: string, newPassword: string, newPasswordConfirm: string): void {
     if (oldPassword !== this.user.password) {
       this.passwordError = 'Incorrect old password.';
+      return;
     }
     if (this.checkPasswordSimilarity(newPassword, newPasswordConfirm)) {
-      // send request
+      this.userService.updateCurrentUser(undefined, newPassword, undefined)
+        .subscribe(user => {
+          console.log('obtained:');
+          console.log(JSON.stringify(user));
+        });
     }
-
   }
 
   checkPasswordSimilarity(newPassword: string, newPasswordConfirm: string): boolean {
@@ -65,6 +72,14 @@ export class AccountComponent implements OnDestroy, OnInit, DoCheck {
       return false;
     }
     return true;
+  }
+
+  attemptDeleteAccount(): void {
+    this.deletingAccount = true;
+  }
+
+  deleteAccount(): void {
+    this.userService.deleteCurrentUser();
   }
 
 }

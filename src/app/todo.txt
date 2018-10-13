@@ -1,0 +1,13 @@
+TODO:
+
+- account alert configuration page
+- home, how it works page
+- messages from backend: (component?)
+    acc created
+    acc data changed
+    bad login
+    errors
+- english/polish language
+- check/refactor observables (?)
+
+- password length in change password

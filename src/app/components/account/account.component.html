@@ -41,6 +41,10 @@
               (blur)="checkPasswordSimilarity(newPassword.value, newPasswordConfirm.value)">
     </td>
     <td style="width:20%;">
+      <button class="btn btn-secondary btn-block" 
+              (click)="changingPassword = false">
+        Back
+      </button>
     </td>
   </tr>
   <tr>
@@ -58,14 +62,26 @@
   </tr>
 </table>
 
+<div *ngIf="deletingAccount">
+  <div class="alert alert-danger">
+    <div style="text-align: center; margin: auto;">
+      Are you sure you want to delete your account?
+      <br><br>
+      <button class="btn btn-danger" style="width:10%" (click)="deleteAccount()">Yes</button>
+      &nbsp;&nbsp;
+      <button class="btn btn-primary" style="width:10%" (click)="deletingAccount = false">No</button>
+    </div>
+  </div>  
+</div>
+
 <div *ngIf="passwordError.length > 0" class="alert alert-danger">
   {{ passwordError }}
 </div>
 
-<div *ngIf="!changingPassword">
+<div *ngIf="!(changingPassword || deletingAccount)">
   <button class="btn btn-primary" (click)="startPasswordChange()">Change password</button>
   &nbsp;&nbsp;
-  <button class="btn btn-danger">Delete account</button>
+  <button class="btn btn-danger" (click)="attemptDeleteAccount()">Delete account</button>
 </div>
 
 </div>

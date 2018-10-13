@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../../services/authentication.service';
+
 import { UserService } from '../../services/user.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { User } from 'src/app/model/User';
 
 @Component({
   selector: 'app-footer',
@@ -9,27 +11,10 @@ import { UserService } from '../../services/user.service';
 })
 export class FooterComponent implements OnInit {
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService,
+              private authService: AuthenticationService) { }
 
   ngOnInit() {
   }
-
-  // checkGet() {
-  //   this.userService.getCurrentUser().subscribe(users => {
-  //     console.log(users);
-  //   });
-  // }
-
-  // checkGet() {
-  //   this.userService.getCurrentUser().subscribe(users => {
-  //     console.log(users);
-  //   });
-  // }
-
-  // checkGet() {
-  //   this.userService.getCurrentUser().subscribe(users => {
-  //     console.log(users);
-  //   });
-  // }
 
 }

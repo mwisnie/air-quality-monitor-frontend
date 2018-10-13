@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { User } from '../model/User';
+import { Router } from '@angular/router';
 
 const LOGIN_ENDPOINT = 'http://localhost:8080/login';
 const API_USER_ENDPOINT = 'http://localhost:8080/api/users/';
@@ -22,7 +23,8 @@ export class AuthenticationService {
   userLoggedSubject = new BehaviorSubject<User>(null);
   jwtToken = new BehaviorSubject<string>(null);
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient,
+              private router: Router) { }
 
   login(username: string, password: string): void {
     const credentials = new User();
@@ -74,6 +76,12 @@ export class AuthenticationService {
         }
       })
     );
+  }
+
+  logoutAndRedirect(): void {
+    this.userLoggedSubject.next(null);
+    this.jwtToken.next(null);
+    this.router.navigate(['home']);
   }
 
   logout(): void {
