@@ -1,35 +1,29 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit, DoCheck } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Subscription, Observable } from 'rxjs';
 
-import { AuthenticationService } from '../../services/authentication.service';
+import * as AuthActions from '../../authentication/store/auth.actions';
+import { AppState } from '../../store/app.store.management';
+import { Router } from '@angular/router';
+import { AuthState } from 'src/app/authentication/store/auth.reducers';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit, OnDestroy {
+export class NavbarComponent implements OnInit {
+  authState: Observable<AuthState>;
 
-  isUserLoggedIn: boolean;
-  isUserLoggedInSubscr: Subscription;
-
-  constructor(private router: Router,
-              private authenticationService: AuthenticationService) { }
+  constructor(private store: Store<AppState>,
+              private router: Router) { }
 
   ngOnInit(): void {
-    this.isUserLoggedInSubscr = this.authenticationService.isUserLoggedIn()
-    .subscribe(isLoggedIn => {
-      this.isUserLoggedIn = isLoggedIn;
-    });
+    this.authState = this.store.select('authState');
   }
 
-  ngOnDestroy(): void {
-    this.isUserLoggedInSubscr.unsubscribe();
-  }
-
-  logout(): void {
-    this.authenticationService.logoutAndRedirect();
+  doLogout(): void {
+    this.store.dispatch(new AuthActions.Logout());
   }
 
 }

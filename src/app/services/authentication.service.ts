@@ -1,7 +1,9 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
+import { from } from 'rxjs';
+
 
 import { User } from '../model/User';
 import { Router } from '@angular/router';
@@ -25,6 +27,11 @@ export class AuthenticationService {
 
   constructor(private httpClient: HttpClient,
               private router: Router) { }
+
+
+  attemptLogin(credentials: { username: string, password: string }) {
+    this.httpClient.post(LOGIN_ENDPOINT, credentials, httpOptions);
+  }
 
   login(username: string, password: string): void {
     const credentials = new User();

@@ -5,23 +5,26 @@ import { FormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
+import { environment } from '../environments/environment.prod';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './authentication/auth.guard';
+import { AuthModule } from './authentication/auth.module';
 import { AboutComponent } from './components/about/about.component';
 import { AccountComponent } from './components/account/account.component';
 import { AlertConfigurationComponent } from './components/alert-configuration/alert-configuration.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { SignInComponent } from './components/sign-in/sign-in.component';
-import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { StationMapComponent } from './components/station-map/station-map.component';
-import { UnregisteredComponent } from './components/unregistered/unregistered.component';
 import { AuthenticationService } from './services/authentication.service';
 import { UserService } from './services/user.service';
-import { AuthModule } from './authentication/auth.module';
+import * as fromStoreManagement from './store/app.store.management';
 
 @NgModule({
   declarations: [
@@ -44,7 +47,11 @@ import { AuthModule } from './authentication/auth.module';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyApSx5-F1uZW8IzrlYOjFCiKDyIqW_rWnw'
     }),
-    AuthModule
+    AuthModule,
+    StoreModule.forRoot(fromStoreManagement.appReducers),
+    EffectsModule.forRoot(fromStoreManagement.appEffects),
+    StoreRouterConnectingModule,
+    environment.production ? [] : StoreDevtoolsModule
   ],
   providers: [
     AuthenticationService,
