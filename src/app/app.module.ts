@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthGuard } from './auth.guard';
+import { AuthGuard } from './authentication/auth.guard';
 import { AboutComponent } from './components/about/about.component';
 import { AccountComponent } from './components/account/account.component';
 import { AlertConfigurationComponent } from './components/alert-configuration/alert-configuration.component';
@@ -21,6 +21,7 @@ import { StationMapComponent } from './components/station-map/station-map.compon
 import { UnregisteredComponent } from './components/unregistered/unregistered.component';
 import { AuthenticationService } from './services/authentication.service';
 import { UserService } from './services/user.service';
+import { AuthModule } from './authentication/auth.module';
 
 @NgModule({
   declarations: [
@@ -29,9 +30,6 @@ import { UserService } from './services/user.service';
     NavbarComponent,
     HomeComponent,
     AboutComponent,
-    SignUpComponent,
-    SignInComponent,
-    UnregisteredComponent,
     AlertConfigurationComponent,
     StationMapComponent,
     FooterComponent,
@@ -45,7 +43,8 @@ import { UserService } from './services/user.service';
     MatSlideToggleModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyApSx5-F1uZW8IzrlYOjFCiKDyIqW_rWnw'
-    })
+    }),
+    AuthModule
   ],
   providers: [
     AuthenticationService,
