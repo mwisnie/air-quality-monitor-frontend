@@ -1,5 +1,5 @@
 import { AgmCoreModule } from '@agm/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -9,6 +9,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { environment } from '../environments/environment.prod';
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +27,10 @@ import { StationMapComponent } from './components/station-map/station-map.compon
 import { AuthenticationService } from './services/authentication.service';
 import { UserService } from './services/user.service';
 import * as fromStoreManagement from './store/app.store.management';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   declarations: [
@@ -47,10 +53,17 @@ import * as fromStoreManagement from './store/app.store.management';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyApSx5-F1uZW8IzrlYOjFCiKDyIqW_rWnw'
     }),
-    AuthModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
     StoreModule.forRoot(fromStoreManagement.appReducers),
     EffectsModule.forRoot(fromStoreManagement.appEffects),
     StoreRouterConnectingModule,
+    AuthModule,
     environment.production ? [] : StoreDevtoolsModule
   ],
   providers: [
