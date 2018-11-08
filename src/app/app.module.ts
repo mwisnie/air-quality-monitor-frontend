@@ -28,6 +28,9 @@ import { AuthenticationService } from './services/authentication.service';
 import { UserService } from './services/user.service';
 import * as fromStoreManagement from './store/app.store.management';
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './services/token.interceptor';
+
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -69,7 +72,12 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [
     AuthenticationService,
     UserService,
-    AuthGuard
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

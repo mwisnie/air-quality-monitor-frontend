@@ -64,6 +64,9 @@ export class AuthEffects {
             payload: loginData.token
           },
         ];
+      }),
+      tap(() => {
+        this.router.navigate(['/']);
       })
     );
 
